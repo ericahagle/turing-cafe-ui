@@ -1,12 +1,3 @@
-// Iteration 3
-// Now that the functionality is there for adding a reservation, write some tests:
-
-// Be sure to intercept and stub any userflows that rely on data from the API
-
-// Write tests covering what should be displayed on the page when the user first visits.
-// Write a test that checks that when data is put into the form, the value is reflected in that form input.
-// Write a test to check the user flow of adding a new reservation to the page.
-
 describe('Turing Cafe Reservations', () => {
   beforeEach(() => {
     cy.intercept('GET', 'http://localhost:3001/api/v1/reservations', {
@@ -20,7 +11,8 @@ describe('Turing Cafe Reservations', () => {
     cy.get('h1').contains('Turing Cafe Reservations');
   });
 
-  it('should display reservation cards correctly on page load', () => {
+  it('should display existing reservation cards correctly on page load', () => {
+    cy.wait('@showAllReservations');
     cy.get('.resy-container')
       .children()
       .first()
@@ -43,7 +35,77 @@ describe('Turing Cafe Reservations', () => {
       });
   });
 
-  it.skip('should add reservation cards when entered through the form', () => {
+  it('should display blank form correctly on page load', () => {
+    cy.wait('@showAllReservations');
+    cy.get('input[name="name"]')
+      .invoke('val')
+      .should('deep.equal', '');
 
+    cy.get('input[name="date"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('input[name="time"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('input[name="number"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('.make-resy-button')
+      .contains('Make Reservation');
+  });
+
+  it('should add reservation cards when entered through the form', () => {
+    cy.wait('@showAllReservations');
+
+    cy.get('input[name="name"]')
+      .type('Erica')
+      .invoke('val')
+      .should('deep.equal', 'Erica');
+
+    cy.get('input[name="date"]')
+      .type('1/3')
+      .invoke('val')
+      .should('deep.equal', '1/3');
+
+    cy.get('input[name="time"]')
+      .type('12:00 pm')
+      .invoke('val')
+      .should('deep.equal', '12:00 pm');
+
+    cy.get('input[name="number"]')
+      .type('2')
+      .invoke('val')
+      .should('deep.equal', '2');
+
+    cy.get('.make-resy-button').click();
+    cy.get('input[name="name"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('input[name="date"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('input[name="time"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('input[name="number"]')
+      .invoke('val')
+      .should('deep.equal', '');
+
+    cy.get('.resy-container')
+      .children()
+      .last()
+      .within(() => {
+        cy.contains('h3', 'Erica')
+        cy.contains('p', '1/3')
+        cy.contains('p', '12:00 pm')
+        cy.contains('p', 'Number of guests: 2')
+        cy.contains('button', 'Cancel');
+      });
   });
 });
