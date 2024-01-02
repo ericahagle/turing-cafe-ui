@@ -11,9 +11,7 @@ function App() {
       <h1 className='app-title'>Turing Cafe Reservations</h1>
       <div className='resy-form'>
       </div>
-      <div className='resy-container'>
-        <Reservations />
-      </div>
+      <Reservations reservations={reservations} />
     </main>
   );
 }
