@@ -1,10 +1,20 @@
 import './App.css';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Reservations from '../Reservations/Reservations';
+import getAllReservations from '../../apiCalls';
 
 function App() {
   const [ reservations, setReservations ] = useState([]);
+  const [ error, setError ] = useState('');
+
+  useEffect(() => {
+    getAllReservations()
+      .then(data => {
+        setReservations([...reservations, ...data]);
+      })
+      .catch(error => setError(error.message));
+  }, []);
 
   return (
     <main className="App">

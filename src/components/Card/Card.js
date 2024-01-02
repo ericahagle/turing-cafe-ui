@@ -5,8 +5,8 @@ function Card({ id, name, date, time, number }) {
     <div className='Card'>
       <h3>{name}</h3>
       <p>{date}</p>
-      <p>{time}</p>
-      <p>`Number of guests: ${number}`</p>
+      <p>{time} pm</p>
+      <p>Number of guests: {number}</p>
       <button className='cancel-resy-button'>Cancel</button>
     </div>
   );

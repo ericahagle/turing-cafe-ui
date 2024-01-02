@@ -2,4 +2,11 @@
   box-sizing: border-box;
   border: 3px solid #008081;
   padding: 10px;
+  color: #008081;
+  background-color: white;
+}
+
+.cancel-resy-button {
+  color: white;
+  background-color: #008081;
 }
